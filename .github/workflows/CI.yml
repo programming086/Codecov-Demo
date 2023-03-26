@@ -28,6 +28,5 @@ jobs:
         cd ../../../../
         xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug-iphonesimulator/standard-swift.app/standard-swift > info.lcov
 
-
     - name: Codecov
       uses: codecov/codecov-action@v3.1.1
