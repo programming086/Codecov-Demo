@@ -19,6 +19,10 @@ jobs:
 
     - name: Build and test
       run: xcodebuild clean build test -project CodecovDemo.xcodeproj -scheme CodecovDemo -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' -enableCodeCoverage YES
+      
+    - name: Gather code coverage
+      uses: sersoft-gmbh/swift-coverage-action@v3
+      id: coverage-files
 
     - name: Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v3.1.1
