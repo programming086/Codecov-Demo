@@ -18,10 +18,16 @@ jobs:
       run: sudo xcode-select -switch /Applications/Xcode_14.2.app
 
     - name: Build and test
-      run: xcodebuild clean build test -project CodecovDemo.xcodeproj -scheme CodecovDemo -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' -enableCodeCoverage YES
+      run: xcodebuild clean build test -project CodecovDemo.xcodeproj -scheme CodecovDemo -derivedDataPath Build/ -destination 'platform=iOS Simulator,name=iPhone 14,OS=16.2' -enableCodeCoverage YES
       
     - name: Gather code coverage
-      uses: sersoft-gmbh/swift-coverage-action@v3
+      run: cd Build/Build/ProfileData
+        cd $(ls -d */|head -n 1)
+        directory=${PWD##*/}
+        pathCoverage=Build/Build/ProfileData/${directory}/Coverage.profdata
+        cd ../../../../
+        xcrun llvm-cov export -format="lcov" -instr-profile $pathCoverage Build/Build/Products/Debug-iphonesimulator/standard-swift.app/standard-swift > info.lcov
+
 
     - name: Codecov
       uses: codecov/codecov-action@v3.1.1
